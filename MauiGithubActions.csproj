@@ -51,7 +51,6 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 		<CreatePackage>false</CreatePackage>
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
 		<CodesignProvision>Automatic</CodesignProvision>
 		<CodesignKey>iPhone Distribution</CodesignKey>
 		<MtouchLink>SdkOnly</MtouchLink>
