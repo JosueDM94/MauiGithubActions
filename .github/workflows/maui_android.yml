@@ -18,6 +18,11 @@ jobs:
     
     - name: GitHub Checkout
       uses: actions/checkout@v4
+
+    - name: Setup Keystore
+      run: |
+        echo "${{ secrets.KEYSTORE_FILE }}" > key.jks.asc
+        gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD_GPG }}" --batch key.jks.asc > key.jks
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -31,12 +36,10 @@ jobs:
       run: dotnet restore
       
     - name: Build Android App
-      run: dotnet build -c Release -f net8.0-android --no-restore
-      
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.0
+      run: dotnet build -c Release -f net8.0-android /p:AndroidSigningKeyStore=myapp.keystore /p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" /p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" /p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}" --no-restore
+
+    - name: Upload Android Artifact
+      uses: actions/upload-artifact@v4
       with:
-        name: artifacts-android
         path: |
           ./**/*.aab
-          ./**/*.apk
