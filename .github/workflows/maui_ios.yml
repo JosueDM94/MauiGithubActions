@@ -27,8 +27,8 @@ jobs:
         KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
       run: |
         # create variables
-        APPLE_CERTIFICATE_PATH=$RUNNER_TEMP/apple_certificate.p12
-        APPLE_PROVISION_PROFILE_PATH=$RUNNER_TEMP/apple_provision_profile.mobileprovision
+        APPLE_CERTIFICATE_PATH=$RUNNER_TEMP/apple.p12
+        APPLE_PROVISION_PROFILE_PATH=$RUNNER_TEMP/apple.mobileprovision
         KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
         # import certificate and provisioning profile from secrets
@@ -83,3 +83,9 @@ jobs:
         path: |
           ./**/bin/Release/**/*.ipa
           ./**/bin/$(BuildConfiguration)/**/*.dSYM/**
+          
+    - name: Clean up keychain and provisioning profile
+      if: ${{ always() }}
+      run: |
+        security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+        rm ~/Library/MobileDevice/Provisioning\ Profiles/apple.mobileprovision
