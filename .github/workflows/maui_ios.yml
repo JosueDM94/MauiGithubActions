@@ -62,9 +62,6 @@ jobs:
         
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
-        
-    - name: Restore dependencies
-      run: dotnet restore MauiGithubActions.sln
     
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
@@ -75,7 +72,7 @@ jobs:
         printFile: true     
       
     - name: Publish iOS App
-      run: dotnet publish MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 --no-restore
+      run: dotnet publish MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
       
     - name: Upload iOS Artifact
       uses: actions/upload-artifact@v4
