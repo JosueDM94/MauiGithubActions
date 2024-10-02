@@ -25,7 +25,7 @@
         <ApplicationTitle>MauiGithubActions</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.mauigithubactions</ApplicationId>
+        <ApplicationId>com.jdiaz.mauigithubactions</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -38,6 +38,38 @@
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+		<CreatePackage>false</CreatePackage>
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+		<CodesignProvision>Automatic</CodesignProvision>
+		<CodesignKey>iPhone Developer</CodesignKey>
+		<MtouchLink>None</MtouchLink>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+		<CreatePackage>false</CreatePackage>
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+		<RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+		<CodesignProvision>Automatic</CodesignProvision>
+		<CodesignKey>iPhone Distribution</CodesignKey>
+		<MtouchLink>SdkOnly</MtouchLink>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+		<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidLinkMode>None</AndroidLinkMode>
+		<AndroidDexTool>d8</AndroidDexTool>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+		<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+		<AndroidPackageFormat>aab</AndroidPackageFormat>
+		<AndroidLinkMode>SdkOnly</AndroidLinkMode>
+		<AndroidDexTool>d8</AndroidDexTool>
+	</PropertyGroup>
 
     <ItemGroup>
         <!-- App Icon -->
