@@ -45,8 +45,8 @@ jobs:
         security list-keychain -d user -s $KEYCHAIN_PATH
 
         # apply provisioning profile
-        mkdir -p ~/Library/MobileDevice/Provisioning Profiles
-        cp $APPLE_PROVISION_PROFILE_PATH ~/Library/MobileDevice/Provisioning Profiles
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        cp $APPLE_PROVISION_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
     - name: Select Xcode Version
       run: sudo xcode-select -s /Applications/Xcode_16.app
