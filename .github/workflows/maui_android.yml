@@ -5,9 +5,16 @@ name: Build .NET MAUI Android
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
+      - dev
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
+      - dev
+
+env:
+  PROJECT_PATH: MauiGithubActions.csproj
 
 jobs:
   build:
@@ -31,20 +38,26 @@ jobs:
         
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
-        
-    - name: Restore dependencies
-      run: dotnet restore
       
+    # - name: Update App Version
+    #   uses: managedcode/MAUIAppVersion@v1.1.0
+    #   if: ${{ github.ref_name == 'main' }}
+    #   with:    
+    #     csproj: $PROJECT_PATH
+    #     version: ${{ vars.BUILD_VERSION }}
+    #     displayVersion: ${{ vars.APP_VERSION }}
+    #     printFile: true
+    
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
       with:    
-        csproj: MauiGithubActions.csproj
+        csproj: $PROJECT_PATH
         version: ${{ github.run_number }}
         displayVersion: ${{ vars.APP_VERSION }}
         printFile: true
       
     - name: Build Android App
-      run: dotnet build -c Release -f net8.0-android /p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" /p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" /p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" /p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}" --no-restore
+      run: dotnet build $PROJECT_PATH -c Release -f net8.0-android /p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" /p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" /p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" /p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
 
     - name: Upload Android Artifact
       uses: actions/upload-artifact@v4
