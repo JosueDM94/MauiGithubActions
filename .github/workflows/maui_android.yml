@@ -14,7 +14,7 @@ on:
       - dev
 
 env:
-  PROJECT_PATH: MauiGithubActions.csproj
+  PROJECT_PATH: 'MauiGithubActions.csproj'
 
 jobs:
   build:
