@@ -35,9 +35,6 @@ jobs:
         
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
-
-    - name: Restore dependencies
-      run: dotnet restore MauiGithubActions.sln
     
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
