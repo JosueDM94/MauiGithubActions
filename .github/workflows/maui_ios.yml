@@ -65,15 +65,6 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore MauiGithubActions.sln
-            
-    # - name: Update App Version
-    #   uses: managedcode/MAUIAppVersion@v1.1.0
-    #   if: ${{ github.ref_name == 'main' }}
-    #   with:    
-    #     csproj: $PROJECT_PATH
-    #     version: ${{ vars.BUILD_VERSION }}
-    #     displayVersion: ${{ vars.APP_VERSION }}
-    #     printFile: true
     
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
@@ -83,14 +74,8 @@ jobs:
         displayVersion: ${{ vars.APP_VERSION }}
         printFile: true     
       
-    - name: Build iOS App
-      run: dotnet build MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
-
-    #- name: Build iOS App
-     # run: dotnet publish MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
-
-    # - name: Publish iOS App
-    #   run: dotnet publish $PROJECT_PATH -f net8.0-ios -c Release --no-restore
+    - name: Publish iOS App
+      run: dotnet publish MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 --no-restore
       
     - name: Upload iOS Artifact
       uses: actions/upload-artifact@v4
