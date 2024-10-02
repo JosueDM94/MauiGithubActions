@@ -47,8 +47,8 @@ jobs:
         displayVersion: ${{ vars.APP_VERSION }}
         printFile: true
       
-    - name: Build Android App
-      run: dotnet build MauiGithubActions.csproj -c Release -f net8.0-android /p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" /p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" /p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" /p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
+    - name: Publish Android App
+      run: dotnet publish MauiGithubActions.csproj -c Release -f net8.0-android -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" -p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" -p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
 
     - name: Upload Android Artifact
       uses: actions/upload-artifact@v4
