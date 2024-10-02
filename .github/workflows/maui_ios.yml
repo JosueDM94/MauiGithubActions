@@ -71,10 +71,10 @@ jobs:
         printFile: true          
       
     - name: Build iOS App
-      run: dotnet build MauiGithubActions.csproj -c Release -f net8.0-ios --no-restore
+      run: dotnet build MauiGithubActions.csproj -c Release -f net8.0-ios -r ios-arm64 --no-restore
 
     - name: Publish iOS App
-      run: dotnet publish MauiGithubActions.csproj -c Release -f net8.0-ios --no-restore
+      run: dotnet publish MauiGithubActions.csproj -c Release -f net8.0-ios -r ios-arm64 --no-restore
       
     - name: Upload iOS Artifact
       uses: actions/upload-artifact@v4
