@@ -30,12 +30,12 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
       
-    - name: Install Windows Certificate
+    - name: Setup Windows Certificate
       run: |
         echo "${{ secrets.WINDOWS_CERTIFICATE }}" > cert.pfx.asc
         certutil -decode cert.pfx.asc cert.pfx
         
-    - name: Add Certificate to Store
+    - name: Install Windows Certificate
       run: certutil -user -q -p ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }} -importpfx cert.pfx NoRoot
 
     - name: Update App Version
@@ -54,4 +54,4 @@ jobs:
       with:
           name: artifacts-windows
           path: |
-            **\*.msix
+            .\**\AppPackages\**\*.*
