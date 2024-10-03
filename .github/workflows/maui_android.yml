@@ -23,6 +23,11 @@ jobs:
     - name: GitHub Checkout
       uses: actions/checkout@v4
 
+    - name: GitHub Dependencies Checkout
+      uses: actions/checkout@v4
+      with:
+	      repository: MauiGithubActions.Shared
+
     - name: Install Keystore
       run: |
         echo "${{ secrets.KEYSTORE_FILE }}" > "${{ secrets.KEYSTORE }}".asc
