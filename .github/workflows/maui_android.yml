@@ -23,7 +23,7 @@ jobs:
     - name: GitHub Checkout
       uses: actions/checkout@v4
 
-    - name: Setup Keystore
+    - name: Install Keystore
       run: |
         echo "${{ secrets.KEYSTORE_FILE }}" > "${{ secrets.KEYSTORE }}".asc
         gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD_GPG }}" --batch "${{ secrets.KEYSTORE }}".asc > "${{ secrets.KEYSTORE }}"
@@ -47,9 +47,9 @@ jobs:
     - name: Publish Android App
       run: dotnet publish MauiGithubActions.csproj -c Release -f net8.0-android -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" -p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" -p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
 
-    - name: Upload Android Artifact
+    - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: artifacts-android
         path: |
-          ./**/bin/Release/**/*.aab
+          ./**/Publish/*.*
