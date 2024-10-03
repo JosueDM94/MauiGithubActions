@@ -28,6 +28,10 @@ jobs:
       with:
         repository: 'JosueDM94/MauiGithubActions.Shared'
 
+    - name: Check path
+      run: |
+        echo "${{ github.workspace }}"
+
     - name: Install Keystore
       run: |
         echo "${{ secrets.KEYSTORE_FILE }}" > "${{ secrets.KEYSTORE }}".asc
