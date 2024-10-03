@@ -21,12 +21,17 @@ jobs:
     steps:
     
     - name: GitHub Checkout
-      uses: actions/checkout@v4.2.0
+      uses: actions/checkout@v4
+      with:
+        path: MauiGithubActions
+        
       
     - name: GitHub Dependencies Checkout
-      uses: actions/checkout@v4.2.0
+      uses: actions/checkout@v4
       with:
-        repository: 'JosueDM94/MauiGithubActions.Shared'
+        repository: JosueDM94/MauiGithubActions.Shared
+        ref: main
+        path: MauiGithubActions.Shared
 
     - name: Check path
       run: |
