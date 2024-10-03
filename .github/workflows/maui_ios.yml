@@ -79,7 +79,7 @@ jobs:
       with:
         name: artifacts-ios
         path: |
-          ./**/bin/Release/**/*.ipa
+          ./**/Publish/*.*
           
     - name: Clean up keychain and provisioning profile
       if: ${{ always() }}
