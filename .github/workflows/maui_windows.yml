@@ -1,0 +1,57 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build .NET MAUI Windows
+
+on:
+  push:
+    branches:
+     - main
+     - dev
+  pull_request:
+    branches:
+     - main
+     - dev
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: GitHub Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+        
+    - name: Install MAUI workload
+      run: dotnet workload install maui
+      
+    - name: Install Windows Certificate
+      run: |
+        echo "${{ secrets.WINDOWS_CERTIFICATE }}" > cert.pfx.asc
+        certutil -decode cert.pfx.asc cert.pfx
+        
+    - name: Add Certificate to Store
+      run: certutil -user -q -p ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }} -importpfx cert.pfx NoRoot
+
+    - name: Update App Version
+      uses: managedcode/MAUIAppVersion@v1.1.0
+      with:    
+        csproj: MauiGithubActions.csproj
+        version: ${{ github.run_number }}
+        displayVersion: ${{ vars.APP_VERSION }}
+        printFile: true
+        
+    - name: Publish Windows App
+      run: dotnet publish MauiGithubActions.csproj -c Release -f net8.0-windows10.0.19041.0 -p:RuntimeIdentifierOverride=win10-x64 -p:WindowsAppSDKSelfContained=true -p:GenerateAppxPackageOnBuild=true -p:AppxPackageSigningEnabled=true -p:PackageCertificateThumbprint="${{ secrets.WINDOWS_CERTIFICATE_THUMBPRINT }}"   
+      
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+          name: artifacts-windows
+          path: |
+            **\*.msix
