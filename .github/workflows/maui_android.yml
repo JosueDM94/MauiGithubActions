@@ -22,11 +22,11 @@ jobs:
     
     - name: GitHub Checkout
       uses: actions/checkout@v4.2.0
-
+      
     - name: GitHub Dependencies Checkout
       uses: actions/checkout@v4.2.0
       with:
-      	repository: 'MauiGithubActions.Shared'
+        repository: 'MauiGithubActions.Shared'
 
     - name: Install Keystore
       run: |
