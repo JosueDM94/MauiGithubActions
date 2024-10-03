@@ -36,6 +36,8 @@ jobs:
     - name: Check path
       run: |
         ls
+        ls MauiGithubActions
+        ls MauiGithubActions.Shared
 
     - name: Install Keystore
       run: |
