@@ -26,7 +26,7 @@ jobs:
     - name: GitHub Dependencies Checkout
       uses: actions/checkout@v4
       with:
-	      repository: MauiGithubActions.Shared
+	repository: MauiGithubActions.Shared
 
     - name: Install Keystore
       run: |
