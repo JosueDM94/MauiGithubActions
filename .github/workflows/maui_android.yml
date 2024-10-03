@@ -30,18 +30,18 @@ jobs:
       with:
         repository: JosueDM94/MauiGithubActions.Shared
         ref: main
-        path: MauiGithubActions.Shared
+        path: MauiGithubActions.Shared    
+
+    - name: Install Keystore
+      run: |
+        echo "${{ secrets.KEYSTORE_FILE }}" > "${{ secrets.KEYSTORE }}".asc
+        gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD_GPG }}" --batch "${{ secrets.KEYSTORE }}".asc > "${{ secrets.KEYSTORE }}"
 
     - name: Check path
       run: |
         ls
         ls MauiGithubActions
         ls MauiGithubActions.Shared
-
-    - name: Install Keystore
-      run: |
-        echo "${{ secrets.KEYSTORE_FILE }}" > "${{ secrets.KEYSTORE }}".asc
-        gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD_GPG }}" --batch "${{ secrets.KEYSTORE }}".asc > "${{ secrets.KEYSTORE }}"
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -60,7 +60,7 @@ jobs:
         printFile: true
       
     - name: Publish Android App
-      run: dotnet publish MauiGithubActions/MauiGithubActions.csproj -c Release -f net8.0-android -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" -p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" -p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
+      run: dotnet publish MauiGithubActions/MauiGithubActions.csproj -c Release -f net8.0-android -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=MauiGithubActions/"${{ secrets.KEYSTORE }}" -p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" -p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
