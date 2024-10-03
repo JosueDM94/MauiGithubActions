@@ -22,6 +22,15 @@ jobs:
     
     - name: GitHub Checkout
       uses: actions/checkout@v4
+      with:
+        path: MauiGithubActions        
+      
+    - name: GitHub Dependencies Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: JosueDM94/MauiGithubActions.Shared
+        ref: main
+        path: MauiGithubActions.Shared
 
     - name: Install the Apple certificate and provisioning profile
       env:
@@ -66,13 +75,13 @@ jobs:
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
       with:    
-        csproj: MauiGithubActions.csproj
+        csproj: MauiGithubActions/MauiGithubActions.csproj
         version: ${{ github.run_number }}
         displayVersion: ${{ vars.APP_VERSION }}
         printFile: true     
       
     - name: Publish iOS App
-      run: dotnet publish MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
+      run: dotnet publish MauiGithubActions/MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
       
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
