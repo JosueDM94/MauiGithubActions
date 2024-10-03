@@ -30,7 +30,7 @@ jobs:
 
     - name: Check path
       run: |
-        echo "${{ github.workspace }}"
+        ls
 
     - name: Install Keystore
       run: |
