@@ -1,4 +1,6 @@
-﻿namespace MauiGithubActions;
+﻿using MauiGithubActions.Shared;
+
+namespace MauiGithubActions;
 
 public partial class MainPage : ContentPage
 {
@@ -6,5 +8,11 @@ public partial class MainPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Console.WriteLine(ApiConstants.ApiUrl);
+    }
 }
 
