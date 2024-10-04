@@ -21,6 +21,15 @@ jobs:
     steps:
     - name: GitHub Checkout
       uses: actions/checkout@v4
+      with:
+        path: MauiGithubActions
+      
+    - name: GitHub Dependencies Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: JosueDM94/MauiGithubActions.Shared
+        ref: main
+        path: MauiGithubActions.Shared
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -41,13 +50,13 @@ jobs:
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
       with:    
-        csproj: MauiGithubActions.csproj
+        csproj: MauiGithubActions/MauiGithubActions.csproj
         version: ${{ github.run_number }}
         displayVersion: ${{ vars.APP_VERSION }}
         printFile: true
         
     - name: Publish Windows App
-      run: dotnet publish MauiGithubActions.csproj -c Release -f net8.0-windows10.0.19041.0 -p:RuntimeIdentifierOverride=win10-x64 -p:WindowsAppSDKSelfContained=true -p:GenerateAppxPackageOnBuild=true -p:AppxPackageSigningEnabled=true -p:PackageCertificateThumbprint="${{ secrets.WINDOWS_CERTIFICATE_THUMBPRINT }}"   
+      run: dotnet publish MauiGithubActions/MauiGithubActions.csproj -c Release -f net8.0-windows10.0.19041.0 -p:RuntimeIdentifierOverride=win10-x64 -p:WindowsAppSDKSelfContained=true -p:GenerateAppxPackageOnBuild=true -p:AppxPackageSigningEnabled=true -p:PackageCertificateThumbprint="${{ secrets.WINDOWS_CERTIFICATE_THUMBPRINT }}"   
       
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
