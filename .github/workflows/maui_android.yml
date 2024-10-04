@@ -23,7 +23,7 @@ jobs:
     - name: GitHub Checkout
       uses: actions/checkout@v4
       with:
-        path: MauiGithubActions        
+        path: MauiGithubActions
       
     - name: GitHub Dependencies Checkout
       uses: actions/checkout@v4
