@@ -19,6 +19,9 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: MauiGithubActions
+
+    - name: Setup App Version
+      run: echo "app_version=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
       
     - name: GitHub Dependencies Checkout
       uses: actions/checkout@v4
@@ -39,11 +42,6 @@ jobs:
         
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
-
-    - name: Setup App Version
-      shell: bash
-      run: echo "app_version=${GITHUB_REF_NAME:-${GITHUB_REF_NAME#refs/heads/release}}" >> $GITHUB_ENV
-      id: branch
     
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
