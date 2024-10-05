@@ -21,7 +21,15 @@ jobs:
         path: MauiGithubActions
 
     - name: Setup App Version
-      run: echo "app_version=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
+      run: echo "app_version=$(echo $GITHUB_REF | cut -d'/' -f 4)" >> $GITHUB_ENV
+
+    - name: Update App Version
+      uses: managedcode/MAUIAppVersion@v1.1.0
+      with:    
+        csproj: MauiGithubActions/MauiGithubActions.csproj
+        version: ${{ github.run_number }}
+        displayVersion: ${{ env.app_version }}
+        printFile: true
       
     - name: GitHub Dependencies Checkout
       uses: actions/checkout@v4
@@ -43,13 +51,7 @@ jobs:
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
     
-    - name: Update App Version
-      uses: managedcode/MAUIAppVersion@v1.1.0
-      with:    
-        csproj: MauiGithubActions/MauiGithubActions.csproj
-        version: ${{ github.run_number }}
-        displayVersion: ${{ env.app_version }}
-        printFile: true
+    
       
     - name: Publish Android App
       run: dotnet publish MauiGithubActions/MauiGithubActions.csproj -c Release -f net8.0-android -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="${{ secrets.KEYSTORE }}" -p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" -p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}"
