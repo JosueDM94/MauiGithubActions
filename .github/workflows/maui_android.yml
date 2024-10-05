@@ -6,12 +6,7 @@ name: Build .NET MAUI Android
 on:
   push:
     branches: 
-      - main
-      - dev
-  pull_request:
-    branches: 
-      - main
-      - dev
+      - 'release/**'
 
 jobs:
   build:
@@ -56,7 +51,7 @@ jobs:
       with:    
         csproj: MauiGithubActions/MauiGithubActions.csproj
         version: ${{ github.run_number }}
-        displayVersion: ${{ vars.APP_VERSION }}
+        displayVersion: ${{ github.ref_name }}
         printFile: true
       
     - name: Publish Android App
