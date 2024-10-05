@@ -31,12 +31,6 @@ jobs:
       run: |
         echo "${{ secrets.KEYSTORE_FILE }}" > MauiGithubActions/"${{ secrets.KEYSTORE }}".asc
         gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD_GPG }}" --batch MauiGithubActions/"${{ secrets.KEYSTORE }}".asc > MauiGithubActions/"${{ secrets.KEYSTORE }}"
-
-    - name: Check path
-      run: |
-        ls
-        ls MauiGithubActions
-        ls MauiGithubActions.Shared
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -45,13 +39,18 @@ jobs:
         
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
+
+    - name: Setup App Version
+      shell: bash
+      run: echo "app_version=${GITHUB_REF_NAME:-${GITHUB_REF_NAME#refs/heads/release}}" >> $GITHUB_ENV
+      id: branch
     
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
       with:    
         csproj: MauiGithubActions/MauiGithubActions.csproj
         version: ${{ github.run_number }}
-        displayVersion: ${{ github.ref_name }}
+        displayVersion: ${{ env.app_version }}
         printFile: true
       
     - name: Publish Android App
