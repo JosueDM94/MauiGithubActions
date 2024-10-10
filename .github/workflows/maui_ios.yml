@@ -67,13 +67,16 @@ jobs:
     - name: Install .NET MAUI Workload
       run: dotnet workload install maui
     
+    - name: Setup App Version
+      run: echo "app_version=$(echo $GITHUB_REF | cut -d'/' -f 4)" >> $GITHUB_ENV
+
     - name: Update App Version
       uses: managedcode/MAUIAppVersion@v1.1.0
       with:    
         csproj: MauiGithubActions/MauiGithubActions.csproj
         version: ${{ github.run_number }}
-        displayVersion: ${{ github.ref_name }}
-        printFile: true     
+        displayVersion: ${{ env.app_version }}
+        printFile: true  
       
     - name: Publish iOS App
       run: dotnet publish MauiGithubActions/MauiGithubActions.csproj -f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64
